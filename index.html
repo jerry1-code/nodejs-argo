@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>守护地球生灵 - 保护动物公益行动</title>
+    <style>
+        :root {
+            --green-dark: #1b4332;
+            --green-mid: #2d6a4f;
+            --green-light: #40916c;
+            --green-pale: #95d5b2;
+            --cream: #fefae0;
+            --warm: #e9c46a;
+            --danger: #d62828;
+            --white: #ffffff;
+            --text: #2b2b2b;
+            --text-light: #555;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.18);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+            background-color: var(--cream);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ============ 导航栏 ============ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(27, 67, 50, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 0 2rem;
+            transition: var(--transition);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .navbar.scrolled {
+            background: rgba(27, 67, 50, 0.96);
+            box-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
+        }
+        .nav-inner {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 68px;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--white);
+            font-weight: 700;
+            font-size: 1.35rem;
+            letter-spacing: 0.5px;
+        }
+        .nav-logo .paw-icon {
+            font-size: 1.8rem;
+            animation: pawBounce 2s ease-in-out infinite;
+        }
+        @keyframes pawBounce {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-8px);
+            }
+            50% {
+                transform: translateY(0);
+            }
+            70% {
+                transform: translateY(-4px);
+            }
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            padding: 0.55rem 1.2rem;
+            border-radius: 25px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+        }
+        .nav-links a:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.12);
+        }
+        .nav-links .btn-donate-nav {
+            background: var(--warm);
+            color: #3d2e0a !important;
+            font-weight: 700;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            transition: var(--transition);
+        }
+        .nav-links .btn-donate-nav:hover {
+            background: #f0c14a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 196, 106, 0.5);
+            color: #3d2e0a !important;
+        }
+        /* 汉堡菜单 */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 8px;
+            z-index: 1001;
+        }
+        .hamburger span {
+            display: block;
+            width: 26px;
+            height: 3px;
+            background: #fff;
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 6px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -6px);
+        }
+
+        /* ============ 英雄区域 ============ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background:
+                linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.55) 60%, rgba(0, 0, 0, 0.7) 100%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="%231b4332"/><stop offset="40%" stop-color="%232d6a4f"/><stop offset="75%" stop-color="%2340916c"/><stop offset="100%" stop-color="%2395d5b2"/></linearGradient><pattern id="trees" x="0" y="0" width="120" height="200" patternUnits="userSpaceOnUse"><circle cx="60" cy="160" r="30" fill="rgba(255,255,255,0.03)"/><rect x="52" y="120" width="16" height="60" rx="4" fill="rgba(255,255,255,0.04)"/></pattern></defs><rect width="1200" height="800" fill="url(%23g)"/><rect width="1200" height="800" fill="url(%23trees)"/><circle cx="200" cy="150" r="180" fill="rgba(255,255,255,0.02)"/><circle cx="950" cy="600" r="250" fill="rgba(255,255,255,0.03)"/><ellipse cx="600" cy="400" rx="500" ry="300" fill="rgba(0,0,0,0.08)"/></svg>');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 2rem;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(to top, var(--cream) 0%, transparent 100%);
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            animation: fadeInUp 1s ease-out;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            padding: 0.4rem 1.4rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 1.2rem;
+            line-height: 1.15;
+            text-shadow: 0 3px 20px rgba(0, 0, 0, 0.4);
+        }
+        .hero h1 span {
+            display: block;
+            color: var(--warm);
+            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+            font-weight: 600;
+            margin-top: 0.3rem;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .btn-primary {
+            background: var(--warm);
+            color: #3d2e0a;
+            padding: 0.9rem 2.2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.05rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            box-shadow: 0 6px 24px rgba(233, 196, 106, 0.45);
+        }
+        .btn-primary:hover {
+            background: #f5d47a;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 32px rgba(233, 196, 106, 0.6);
+        }
+        .btn-outline {
+            background: transparent;
+            color: #fff;
+            padding: 0.85rem 2.2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #fff;
+            transform: translateY(-3px);
+        }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            animation: floatDown 2s ease-in-out infinite;
+        }
+        @keyframes floatDown {
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateX(-50%) translateY(14px);
+                opacity: 1;
+            }
+        }
+        .scroll-indicator svg {
+            width: 36px;
+            height: 36px;
+            fill: #fff;
+            opacity: 0.8;
+        }
+
+        /* ============ 通用区块 ============ */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+        .section-header .section-tag {
+            display: inline-block;
+            background: var(--green-pale);
+            color: var(--green-dark);
+            padding: 0.3rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .section-header h2 {
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            color: var(--green-dark);
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+        }
+        .section-header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .divider {
+            width: 60px;
+            height: 4px;
+            background: var(--warm);
+            border-radius: 2px;
+            margin: 1rem auto;
+        }
+
+        /* ============ 数据统计条 ============ */
+        .stats-strip {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: -40px;
+            position: relative;
+            z-index: 5;
+            padding: 0 2rem;
+            max-width: 1300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .stat-card {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 2rem 1.8rem;
+            text-align: center;
+            flex: 1 1 180px;
+            max-width: 240px;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+            border-top: 4px solid var(--green-mid);
+        }
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 18px 44px rgba(0, 0, 0, 0.2);
+        }
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--green-dark);
+            line-height: 1;
+        }
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        /* ============ 动物卡片网格 ============ */
+        .animals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 2rem;
+        }
+        .animal-card {
+            background: #fff;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+        .animal-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+        }
+        .animal-card-img {
+            height: 220px;
+            position: relative;
+            overflow: hidden;
+        }
+        .animal-card-img .img-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            transition: transform 0.5s ease;
+        }
+        .animal-card:hover .img-placeholder {
+            transform: scale(1.08);
+        }
+        .img-panda {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 40%, #a5d6a7 100%);
+        }
+        .img-tiger {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 40%, #ffcc80 100%);
+        }
+        .img-elephant {
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 40%, #ce93d8 100%);
+        }
+        .img-turtle {
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 40%, #80deea 100%);
+        }
+        .img-snowleopard {
+            background: linear-gradient(135deg, #eceff1 0%, #cfd8dc 40%, #b0bec5 100%);
+        }
+        .img-rhino {
+            background: linear-gradient(135deg, #efebe9 0%, #d7ccc8 40%, #bcaaa4 100%);
+        }
+        .conservation-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            padding: 0.3rem 0.9rem;
+            border-radius: 15px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #fff;
+            z-index: 2;
+        }
+        .badge-critical {
+            background: #d62828;
+        }
+        .badge-endangered {
+            background: #e76f51;
+        }
+        .badge-vulnerable {
+            background: #f4a261;
+        }
+        .animal-card-body {
+            padding: 1.5rem;
+        }
+        .animal-card-body h3 {
+            font-size: 1.4rem;
+            color: var(--green-dark);
+            margin-bottom: 0.3rem;
+            font-weight: 700;
+        }
+        .animal-card-body .scientific-name {
+            font-style: italic;
+            color: #999;
+            font-size: 0.85rem;
+            margin-bottom: 0.7rem;
+        }
+        .animal-card-body p {
+            color: var(--text-light);
+            font-size: 0.93rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        .animal-stat-row {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.82rem;
+            color: #777;
+            border-top: 1px solid #eee;
+            padding-top: 0.8rem;
+        }
+        .animal-stat-row span strong {
+            color: var(--green-mid);
+            font-size: 1.1rem;
+        }
+
+        /* ============ 行动号召区 ============ */
+        .cta-section {
+            background: var(--green-dark);
+            color: #fff;
+            text-align: center;
+            padding: 5rem 2rem;
+            border-radius: var(--radius);
+            margin: 3rem auto;
+            max-width: 1300px;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .cta-section::after {
+            content: '';
+            position: absolute;
+            bottom: -40px;
+            left: -40px;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .cta-section h2 {
+            font-size: clamp(2rem, 3vw, 2.6rem);
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-section p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin: 1rem 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+        .btn-cta-white {
+            background: #fff;
+            color: var(--green-dark);
+            padding: 0.9rem 2.2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.05rem;
+            transition: var(--transition);
+        }
+        .btn-cta-white:hover {
+            background: var(--warm);
+            color: #3d2e0a;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(233, 196, 106, 0.5);
+        }
+        .btn-cta-outline {
+            background: transparent;
+            color: #fff;
+            padding: 0.85rem 2.2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            transition: var(--transition);
+        }
+        .btn-cta-outline:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: #fff;
+            transform: translateY(-3px);
+        }
+
+        /* ============ 如何帮助区 ============ */
+        .help-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.8rem;
+        }
+        .help-card {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-bottom: 4px solid transparent;
+        }
+        .help-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-bottom-color: var(--green-mid);
+        }
+        .help-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .help-card h4 {
+            font-size: 1.2rem;
+            color: var(--green-dark);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        .help-card p {
+            color: var(--text-light);
+            font-size: 0.93rem;
+            line-height: 1.6;
+        }
+
+        /* ============ 页脚 ============ */
+        .footer {
+            background: #1a1a1a;
+            color: #ccc;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        .footer-inner {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover {
+            color: var(--warm);
+        }
+        .footer-copy {
+            font-size: 0.9rem;
+            color: #777;
+        }
+        .footer-heart {
+            color: #e63946;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        @keyframes heartbeat {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            15% {
+                transform: scale(1.25);
+            }
+            30% {
+                transform: scale(1);
+            }
+            45% {
+                transform: scale(1.2);
+            }
+            60% {
+                transform: scale(1);
+            }
+        }
+
+        /* ============ 回到顶部按钮 ============ */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--green-mid);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .back-to-top:hover {
+            background: var(--green-dark);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        }
+
+        /* ============ 响应式 ============ */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                flex-direction: column;
+                background: rgba(27, 67, 50, 0.97);
+                backdrop-filter: blur(20px);
+                padding: 5rem 2rem 2rem;
+                gap: 0.8rem;
+                transition: var(--transition);
+                box-shadow: -4px 0 30px rgba(0, 0, 0, 0.3);
+            }
+            .nav-links.active {
+                right: 0;
+            }
+            .nav-links a {
+                display: block;
+                text-align: center;
+                font-size: 1rem;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .stats-strip {
+                margin-top: -20px;
+                gap: 1rem;
+            }
+            .stat-card {
+                flex: 1 1 130px;
+                max-width: 160px;
+                padding: 1.2rem 1rem;
+            }
+            .stat-number {
+                font-size: 2rem;
+            }
+            .section {
+                padding: 3rem 1.2rem;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .hero h1 span {
+                font-size: 1.3rem;
+            }
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== 导航栏 ==================== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">
+                <span class="paw-icon">🐾</span> 守护生灵
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about">关于我们</a></li>
+                <li><a href="#animals">濒危物种</a></li>
+                <li><a href="#help">如何帮助</a></li>
+                <li><a href="#contact">联系我们</a></li>
+                <li><a href="#" class="btn-donate-nav">💚 立即捐助</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger" aria-label="菜单">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ==================== 英雄区域 ==================== -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-badge">🌍 全球公益行动</div>
+            <h1>守护地球<span>每一个珍贵的生命</span></h1>
+            <p>每年有超过<strong style="color:#f4a261;">10,000个物种</strong>濒临灭绝。加入我们，一起为无声的生命发声，让未来世代也能看见它们的美丽。</p>
+            <div class="hero-buttons">
+                <a href="#animals" class="btn-primary">了解更多</a>
+                <a href="#" class="btn-outline">成为志愿者</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <svg viewBox="0 0 24 24"><path d="M12 4l-8 8h5v8h6v-8h5z"/></svg>
+        </div>
+    </section>
+
+    <!-- ==================== 数据统计条 ==================== -->
+    <div class="stats-strip">
+        <div class="stat-card">
+            <div class="stat-number" data-count="41000">41,000+</div>
+            <div class="stat-label">濒危物种</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">68%</div>
+            <div class="stat-label">种群数量下降</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">150+</div>
+            <div class="stat-label">保护项目覆盖国家</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">200万+</div>
+            <div class="stat-label">全球支持者</div>
+        </div>
+    </div>
+
+    <!-- ==================== 关于我们 ==================== -->
+    <section class="section" id="about">
+        <div class="section-header">
+            <div class="section-tag">关于我们</div>
+            <h2>为什么保护动物如此重要？</h2>
+            <div class="divider"></div>
+            <p>每一个物种都是地球生态系统中不可或缺的一环。保护动物，就是保护人类自己的未来。</p>
+        </div>
+        <div class="help-cards">
+            <div class="help-card">
+                <span class="help-icon">🌿</span>
+                <h4>生态平衡</h4>
+                <p>每个物种都在食物链中扮演关键角色，一个物种的消失可能引发整个生态系统的崩溃。</p>
+            </div>
+            <div class="help-card">
+                <span class="help-icon">🧬</span>
+                <h4>生物多样性</h4>
+                <p>丰富的基因库是地球生命的宝藏，为医学、农业和科学研究提供无限可能。</p>
+            </div>
+            <div class="help-card">
+                <span class="help-icon">💧</span>
+                <h4>气候调节</h4>
+                <p>健康的动物种群有助于维持森林、草原和海洋的健康，从而调节全球气候。</p>
+            </div>
+            <div class="help-card">
+                <span class="help-icon">❤️</span>
+                <h4>道德责任</h4>
+                <p>作为地球上最有智慧的物种，我们有责任保护与我们共享这个星球的其他生命。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 濒危动物展示 ==================== -->
+    <section class="section" id="animals">
+        <div class="section-header">
+            <div class="section-tag">濒危物种</div>
+            <h2>它们需要我们的帮助</h2>
+            <div class="divider"></div>
+            <p>以下是急需保护的濒危动物，它们的生存状况令人担忧。</p>
+        </div>
+        <div class="animals-grid">
+            <!-- 大熊猫 -->
+            <div class="animal-card">
+                <div class="animal-card-img">
+                    <div class="img-placeholder img-panda">🐼</div>
+                    <span class="conservation-badge badge-vulnerable">易危</span>
+                </div>
+                <div class="animal-card-body">
+                    <h3>大熊猫</h3>
+                    <p class="scientific-name">Ailuropoda melanoleuca</p>
+                    <p>中国国宝，全球仅存约1,800只野生个体。栖息地破碎化是它们面临的最大威胁。</p>
+                    <div class="animal-stat-row">
+                        <span>野外数量：<strong>~1,800</strong></span>
+                        <span>栖息地：<strong>中国</strong></span>
+                    </div>
+                </div>
+            </div>
+            <!-- 老虎 -->
+            <div class="animal-card">
+                <div class="animal-card-img">
+                    <div class="img-placeholder img-tiger">🐅</div>
+                    <span class="conservation-badge badge-endangered">濒危</span>
+                </div>
+                <div class="animal-card-body">
+                    <h3>东北虎</h3>
+                    <p class="scientific-name">Panthera tigris altaica</p>
+                    <p>世界上最大的猫科动物，野生种群不足600只。盗猎和栖息地丧失是主要威胁。</p>
+                    <div class="animal-stat-row">
+                        <span>野外数量：<strong>&lt;600</strong></span>
+                        <span>栖息地：<strong>俄罗斯/中国</strong></span>
+                    </div>
+                </div>
+            </div>
+            <!-- 非洲象 -->
+            <div class="animal-card">
+                <div class="animal-card-img">
+                    <div class="img-placeholder img-elephant">🐘</div>
+                    <span class="conservation-badge badge-endangered">濒危</span>
+                </div>
+                <div class="animal-card-body">
+                    <h3>非洲森林象</h3>
+                    <p class="scientific-name">Loxodonta cyclotis</p>
+                    <p>因象牙贸易遭受严重盗猎，过去十年种群数量下降超过60%，情况十分危急。</p>
+                    <div class="animal-stat-row">
+                        <span>种群下降：<strong>60%+</strong></span>
+                        <span>栖息地：<strong>非洲</strong></span>
+                    </div>
+                </div>
+            </div>
+            <!-- 海龟 -->
+            <div class="animal-card">
+                <div class="animal-card-img">
+                    <div class="img-placeholder img-turtle">🐢</div>
+                    <span class="conservation-badge badge-critical">极危</span>
+                </div>
+                <div class="animal-card-body">
+                    <h3>玳瑁海龟</h3>
+                    <p class="scientific-name">Eretmochelys imbricata</p>
+                    <p>因海洋污染和非法捕捞，全球雌性产卵个体已不足25,000只，面临灭绝风险。</p>
+                    <div class="animal-stat-row">
+                        <span>雌性成体：<strong>&lt;25,000</strong></span>
+                        <span>栖息地：<strong>全球热带海域</strong></span>
+                    </div>
+                </div>
+            </div>
+            <!-- 雪豹 -->
+            <div class="animal-card">
+                <div class="animal-card-img">
+                    <div class="img-placeholder img-snowleopard">🐆</div>
+                    <span class="conservation-badge badge-vulnerable">易危</span>
+                </div>
+                <div class="animal-card-body">
+                    <h3>雪豹</h3>
+                    <p class="scientific-name">Panthera uncia</p>
+                    <p>栖息在中亚高山地带，全球仅存约4,000-6,500只。气候变暖正不断压缩它们的生存空间。</p>
+                    <div class="animal-stat-row">
+                        <span>野外数量：<strong>~4,000-6,500</strong></span>
+                        <span>栖息地：<strong>中亚高山</strong></span>
+                    </div>
+                </div>
+            </div>
+            <!-- 犀牛 -->
+            <div class="animal-card">
+                <div class="animal-card-img">
+                    <div class="img-placeholder img-rhino">🦏</div>
+                    <span class="conservation-badge badge-critical">极危</span>
+                </div>
+                <div class="animal-card-body">
+                    <h3>爪哇犀牛</h3>
+                    <p class="scientific-name">Rhinoceros sondaicus</p>
+                    <p>全球最濒危的大型哺乳动物之一，仅存约75头，全部生活在印尼的一个国家公园内。</p>
+                    <div class="animal-stat-row">
+                        <span>野外数量：<strong>~75</strong></span>
+                        <span>栖息地：<strong>印尼</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 行动号召 ==================== -->
+    <div class="cta-section" style="margin: 3rem auto;">
+        <h2>🌍 你的一小步，是它们的一大步</h2>
+        <p>每一个微小的行动都能汇聚成改变的力量。从今天开始，为保护动物贡献一份力量。</p>
+        <div class="cta-buttons">
+            <a href="#" class="btn-cta-white">每月捐助 ¥50</a>
+            <a href="#" class="btn-cta-outline">了解更多项目</a>
+        </div>
+    </div>
+
+    <!-- ==================== 如何帮助 ==================== -->
+    <section class="section" id="help">
+        <div class="section-header">
+            <div class="section-tag">行动指南</div>
+            <h2>你可以这样做</h2>
+            <div class="divider"></div>
+            <p>保护动物并不遥远，从日常生活中的小事开始，每个人都可以成为守护者。</p>
+        </div>
+        <div class="help-cards">
+            <div class="help-card">
+                <span class="help-icon">💰</span>
+                <h4>捐助支持</h4>
+                <p>每月省下一杯奶茶的钱，支持野生动物保护组织，为前线护林员提供装备和培训。</p>
+            </div>
+            <div class="help-card">
+                <span class="help-icon">📢</span>
+                <h4>传播 awareness</h4>
+                <p>在社交媒体分享保护动物的信息，让更多人了解濒危物种的困境，唤醒公众意识。</p>
+            </div>
+            <div class="help-card">
+                <span class="help-icon">🛍️</span>
+                <h4>拒绝购买</h4>
+                <p>拒绝购买象牙、犀角、虎骨等野生动物制品，没有买卖就没有杀害。</p>
+            </div>
+            <div class="help-card">
+                <span class="help-icon">🌱</span>
+                <h4>绿色生活</h4>
+                <p>减少碳足迹，使用可持续产品，减少塑料污染，保护动物赖以生存的自然环境。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 页脚 ==================== -->
+    <footer class="footer" id="contact">
+        <div class="footer-inner">
+            <div>
+                <p style="font-weight:700;font-size:1.1rem;color:#fff;">🐾 守护生灵 · 保护动物公益组织</p>
+                <p class="footer-copy">用爱守护每一个生命</p>
+            </div>
+            <ul class="footer-links">
+                <li><a href="#home">首页</a></li>
+                <li><a href="#about">关于</a></li>
+                <li><a href="#animals">濒危物种</a></li>
+                <li><a href="#help">行动指南</a></li>
+                <li><a href="#">隐私政策</a></li>
+                <li><a href="#">联系我们</a></li>
+            </ul>
+            <p class="footer-copy">© 2026 守护生灵 | 用 <span class="footer-heart">❤️</span> 守护地球 | 仅供公益展示</p>
+        </div>
+    </footer>
+
+    <!-- ==================== 回到顶部按钮 ==================== -->
+    <button class="back-to-top" id="backToTop" aria-label="回到顶部">↑</button>
+
+    <!-- ==================== JavaScript ==================== -->
+    <script>
+        // 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        const backToTop = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            // 导航栏阴影
+            if (scrollY > 60) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            // 回到顶部按钮
+            if (scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // 回到顶部
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // 汉堡菜单
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // 点击导航链接后关闭菜单
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // 点击页面其他区域关闭菜单
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+        });
+
+        // 平滑滚动（兼容所有导航链接）
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const target = document.querySelector(targetId);
+                if (target) {
+                    e.preventDefault();
+                    const navHeight = navbar.offsetHeight;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset -
+                        navHeight - 10;
+                    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // 统计数字动画
+        const statCards = document.querySelectorAll('.stat-card .stat-number');
+        const observerOptions = { threshold: 0.5 };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        statCards.forEach(stat => observer.observe(stat));
+
+        // 动物卡片渐入动画
+        const animalCards = document.querySelectorAll('.animal-card');
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = `fadeInUp 0.6s ease-out ${index * 0.1}s forwards`;
+                    entry.target.style.opacity = '0';
+                    entry.target.style.animationFillMode = 'forwards';
+                    cardObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        animalCards.forEach(card => {
+            card.style.opacity = '0';
+            cardObserver.observe(card);
+        });
+
+        console.log('🌿 守护生灵 - 保护动物公益页面已就绪');
+        console.log('🐾 感谢你关心地球上的每一个生命！');
+    </script>
+</body>
+</html>
